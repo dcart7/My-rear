@@ -123,6 +123,24 @@ open MiyTyl.xcodeproj
 
 У проєкт уже включено AppIcon asset catalog для iPhone/iPad, `PrivacyInfo.xcprivacy`, `ITSAppUsesNonExemptEncryption = NO` та Live Activity extension. Apple Developer Team, сертифікати, provisioning profiles і App Store Connect metadata потрібно додати у власному акаунті.
 
+### Автоматичне завантаження в TestFlight
+
+Потрібні Ruby/Bundler, Fastlane і App Store Connect API key з роллю App Manager або Admin. Файл `.p8` не додавайте в Git.
+
+```bash
+bundle install
+export TEAM_ID="YOUR_APPLE_TEAM_ID"
+export APP_IDENTIFIER="ua.miytyl.app"
+export ASC_KEY_ID="YOUR_KEY_ID"
+export ASC_ISSUER_ID="YOUR_ISSUER_ID"
+export ASC_KEY_PATH="/absolute/path/AuthKey_YOUR_KEY_ID.p8"
+bundle exec fastlane beta
+```
+
+Lane `beta` збирає clean archive, підписує його вашим Team і завантажує в TestFlight як internal testing build. Lane `release` завантажує build в App Store Connect без автоматичної відправки на review.
+
+Apple вимагає спочатку створити App Record у App Store Connect з тим самим Bundle ID, що і в Xcode; після upload build має пройти обробку Apple перед появою у TestFlight. [Офіційна інструкція Apple щодо upload builds](https://developer.apple.com/help/app-store-connect/manage-builds/upload-builds/).
+
 ## Приватність і безпека
 
 - Реєстрація не потрібна.
