@@ -56,6 +56,44 @@ MiyTylLiveActivity/
 
 У репозиторії залишено лише нативний Swift/Xcode-проєкт.
 
+## Соціальна мережа та PostgreSQL backend
+
+У репозиторії є окремий `backend/` для соціальної функціональності. Він не вбудовується в App Store binary: iOS застосунок підключається до нього через `SocialAPI.swift`.
+
+Можливості backend MVP:
+
+- реєстрація та вхід з bcrypt-паролями і JWT;
+- стрічка повідомлень про відсутність світла, води, зв’язку та інші локальні проблеми;
+- створення та видалення власних публікацій;
+- реакції «корисно / не корисно»;
+- скарги на публікації зі статусом `pending_review`;
+- PostgreSQL міграція та індекси;
+- Helmet, CORS allowlist, rate limiting, Zod validation і ліміт JSON payload;
+- Docker Compose для PostgreSQL 16 та API.
+
+Локальний запуск:
+
+```bash
+cd backend
+cp .env.example .env
+# змініть JWT_SECRET на довгий випадковий секрет
+npm install
+docker compose up -d postgres
+npm run migrate
+npm start
+```
+
+Або запустіть весь стек:
+
+```bash
+cd backend
+JWT_SECRET="your-long-random-secret" docker compose up --build
+```
+
+API буде доступний на `http://localhost:8787`. Перед production необхідні HTTPS, managed PostgreSQL, секрети в hosting environment, email verification, refresh-token rotation, Redis/зовнішній rate-limit store, object storage для медіа, реальна черга модерації та резервні копії бази.
+
+Для публічної соціальної мережі не використовуйте точні адреси: модель зберігає лише район або населений пункт. Додатково потрібні правила спільноти, механізм скарг, блокування, видалення незаконного контенту, privacy policy та процедура відповіді на запити користувачів.
+
 ## Запуск у Xcode
 
 Потрібні macOS, Xcode 15.4+ та iOS Simulator або фізичний пристрій з iOS 17+.
