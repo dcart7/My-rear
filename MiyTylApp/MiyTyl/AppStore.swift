@@ -89,7 +89,7 @@ final class AppStore {
     var bagProgress: Int { percentage(done: bag.filter(\.isDone).count, total: bag.count) }
     var outageProgress: Int { percentage(done: outage.filter(\.isDone).count, total: outage.count) }
 
-    func toggle(_ item: ChecklistItem, in categoryID: UUID? = nil, list: ListKind = .plan) {
+    func toggle(_ item: ChecklistItem, categoryID: UUID? = nil, list: ListKind = .plan) {
         switch list {
         case .bag: update(&bag, item)
         case .outage: update(&outage, item)

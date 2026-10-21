@@ -4,15 +4,6 @@ import ActivityKit
 import SwiftUI
 import WidgetKit
 
-struct MiyTylAlertAttributes: ActivityAttributes {
-    public struct ContentState: Codable, Hashable {
-        var status: String
-        var region: String
-        var updatedAt: Date
-    }
-    var region: String
-}
-
 struct MiyTylLiveActivity: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: MiyTylAlertAttributes.self) { context in

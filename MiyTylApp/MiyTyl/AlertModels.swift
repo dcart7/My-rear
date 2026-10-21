@@ -1,5 +1,5 @@
-import ActivityKit
 import Foundation
+import ActivityKit
 
 struct AlertStatus: Codable, Equatable {
     var locationTitle: String

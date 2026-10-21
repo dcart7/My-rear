@@ -10,8 +10,10 @@
 		1D7EC7C312376428E08DB17D /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 0C85A50C8FF04CBB6BF2E08B /* PrivacyInfo.xcprivacy */; };
 		2FFBF0C9E7795CF62AEC2BF2 /* SocialAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338ED458C03CDFD3430B121F /* SocialAPI.swift */; };
 		3867651C0F11D79BC1D6CC48 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF29E394CF7AB6A3AD4F5C9 /* ContentView.swift */; };
+		4B4D3DD30C19E5343D0D265E /* AlertActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5FAFA33575620DFC7E7F8EA /* AlertActivityAttributes.swift */; };
 		53D60ECFD73471D38D6D2A25 /* AlertModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F67363CD4F00DC34E0DBC8A /* AlertModels.swift */; };
 		6EFF127BF356C8FFEE580CA9 /* LiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B58E8E90AB2DA1A833BCC37 /* LiveActivity.swift */; };
+		9C02B65F2F1169D027B1B37E /* AlertActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5FAFA33575620DFC7E7F8EA /* AlertActivityAttributes.swift */; };
 		C457EA95967C4D3D9438C4FB /* MiyTylLiveActivity.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 155E1EFCB24AB5557FAFCA86 /* MiyTylLiveActivity.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C9DE04CF6AC3CB597F8317C0 /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D300B297277EC27085DF79A /* AppStore.swift */; };
 		E651C247D0AECAAC418793BE /* MiyTylApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900FF19E412479AFD0A193B7 /* MiyTylApp.swift */; };
@@ -53,6 +55,7 @@
 		8D300B297277EC27085DF79A /* AppStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStore.swift; sourceTree = "<group>"; };
 		900FF19E412479AFD0A193B7 /* MiyTylApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiyTylApp.swift; sourceTree = "<group>"; };
 		CEF29E394CF7AB6A3AD4F5C9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		D5FAFA33575620DFC7E7F8EA /* AlertActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertActivityAttributes.swift; sourceTree = "<group>"; };
 		E4147C78AB8178FB09836E4A /* MiyTyl.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = MiyTyl.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E766D043BF26EEB2F8D469F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -63,8 +66,17 @@
 			children = (
 				D6B90A40C96D0591BB939791 /* MiyTyl */,
 				D6751F3F4663A4070E1C5038 /* MiyTylLiveActivity */,
+				311AA312EE3586C28959A35C /* MiyTylShared */,
 				6CEB8F9706511822150027C4 /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		311AA312EE3586C28959A35C /* MiyTylShared */ = {
+			isa = PBXGroup;
+			children = (
+				D5FAFA33575620DFC7E7F8EA /* AlertActivityAttributes.swift */,
+			);
+			path = MiyTylShared;
 			sourceTree = "<group>";
 		};
 		6CEB8F9706511822150027C4 /* Products */ = {
@@ -196,6 +208,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C02B65F2F1169D027B1B37E /* AlertActivityAttributes.swift in Sources */,
 				53D60ECFD73471D38D6D2A25 /* AlertModels.swift in Sources */,
 				C9DE04CF6AC3CB597F8317C0 /* AppStore.swift in Sources */,
 				3867651C0F11D79BC1D6CC48 /* ContentView.swift in Sources */,
@@ -208,6 +221,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B4D3DD30C19E5343D0D265E /* AlertActivityAttributes.swift in Sources */,
 				6EFF127BF356C8FFEE580CA9 /* LiveActivity.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
