@@ -159,6 +159,7 @@ struct TaskToggle: View { let item: ChecklistItem; let action: () -> Void; var b
 struct SafetyCenterView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var token = ""
+    @State private var backendURL = (Bundle.main.object(forInfoDictionaryKey: "MiyTylAPIBaseURL") as? String) ?? ""
     @State private var regionID = "16"
     @State private var status = "Дані ще не завантажено"
     @State private var isLoading = false
@@ -171,17 +172,18 @@ struct SafetyCenterView: View {
                 VStack(alignment: .leading, spacing: 14) {
                     Map(initialPosition: .region(ukraine)) { Marker("Україна", coordinate: CLLocationCoordinate2D(latitude: 49.0, longitude: 31.5)) }.frame(height: 220).clipShape(.rect(cornerRadius: 16))
                     Label(status, systemImage: status.contains("актив") ? "exclamationmark.triangle.fill" : "shield.checkered").foregroundStyle(status.contains("актив") ? .red : .secondary)
-                    Text("Для живих даних потрібен персональний токен alerts.in.ua або захищений backend-проксі. Токен не зберігається в застосунку.").font(.footnote).foregroundStyle(.secondary)
+                    Text("Рекомендовано використовувати backend-проксі. Токен alerts.in.ua не зберігається в застосунку.").font(.footnote).foregroundStyle(.secondary)
+                    TextField("URL backend-проксі", text: $backendURL).textInputAutocapitalization(.never).keyboardType(.URL).textFieldStyle(.roundedBorder)
                     SecureField("API-токен", text: $token).textFieldStyle(.roundedBorder)
                     TextField("ID області", text: $regionID).keyboardType(.numberPad).textFieldStyle(.roundedBorder)
-                    Button { refresh() } label: { Label(isLoading ? "Оновлення…" : "Оновити дані", systemImage: "arrow.clockwise").frame(maxWidth: .infinity) }.buttonStyle(.borderedProminent).disabled(token.isEmpty || isLoading)
+                    Button { refresh() } label: { Label(isLoading ? "Оновлення…" : "Оновити дані", systemImage: "arrow.clockwise").frame(maxWidth: .infinity) }.buttonStyle(.borderedProminent).disabled((token.isEmpty && backendURL.isEmpty) || isLoading)
                     Text("У разі безпосередньої небезпеки дотримуйтеся офіційних повідомлень відповідних служб.").font(.caption).foregroundStyle(.orange)
                 }.padding()
             }.navigationTitle("Тривоги та карта").toolbar { Button("Готово") { dismiss() } }
         }
     }
 
-    private func refresh() { guard let id = Int(regionID), let base = URL(string: "https://api.alerts.in.ua") else { return }; isLoading = true; Task { do { let result = try await service.fetchStatus(baseURL: base, bearerToken: token, regionID: id); status = result.status == "active" ? "Активна тривога: \(result.locationTitle)" : "Активних тривог не зафіксовано"; await LiveActivityManager.shared.update(region: result.locationTitle, status: result.status) } catch { status = "Не вдалося отримати дані. Перевірте токен або з’єднання." }; isLoading = false }
+    private func refresh() { guard let id = Int(regionID) else { return }; isLoading = true; Task { do { let result: AlertStatus; if let base = URL(string: backendURL), !backendURL.isEmpty { result = try await service.fetchFromBackend(baseURL: base, regionID: id) } else { guard let base = URL(string: "https://api.alerts.in.ua"), !token.isEmpty else { throw URLError(.userAuthenticationRequired) }; result = try await service.fetchStatus(baseURL: base, bearerToken: token, regionID: id) }; status = result.status == "active" ? "Активна тривога: \(result.locationTitle)" : "Активних тривог не зафіксовано"; await LiveActivityManager.shared.update(region: result.locationTitle, status: result.status) } catch { status = "Не вдалося отримати дані. Перевірте backend, токен або з’єднання." }; isLoading = false }
     }
 }
 
