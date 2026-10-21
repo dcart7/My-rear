@@ -63,23 +63,83 @@ struct DashboardView: View {
 struct PlanView: View {
     @Environment(AppStore.self) private var store
     @State private var expanded: Set<UUID> = []
+    @State private var showingAddTask = false
+    @State private var newTaskTitle = ""
+    @State private var pendingCategoryID: UUID?
 
     var body: some View {
         List {
             Section { ProgressRow(title: "Загальна готовність", value: store.progress) }
             ForEach(store.plan) { category in
-                Section {
-                    DisclosureGroup(isExpanded: Binding(get: { expanded.contains(category.id) }, set: { $0 ? expanded.insert(category.id) : expanded.remove(category.id) })) {
-                        ForEach(category.items) { item in TaskToggle(item: item) { store.toggle(item, categoryID: category.id) } }
-                        Button { addTask(to: category.id) } label: { Label("Додати власне завдання", systemImage: "plus") }
-                    } label: { Label { VStack(alignment: .leading) { Text(category.title).font(.headline); Text("\(category.items.filter { $0.isDone }.count) з \(category.items.count) виконано").font(.caption).foregroundStyle(.secondary) } } icon: { Image(systemName: category.symbol).foregroundStyle(AppColor.blue) } }
+                PlanCategorySection(category: category, expanded: $expanded) {
+                    pendingCategoryID = category.id
+                    showingAddTask = true
                 }
             }
         }
         .navigationTitle("Мій план")
+        .alert("Нове завдання", isPresented: $showingAddTask) {
+            TextField("Назва завдання", text: $newTaskTitle)
+            Button("Скасувати", role: .cancel) { newTaskTitle = "" }
+            Button("Додати") {
+                if let id = pendingCategoryID { store.addTask(title: newTaskTitle, to: id) }
+                newTaskTitle = ""
+            }
+        }
+    }
+}
+
+private struct PlanCategorySection: View {
+    let category: ChecklistCategory
+    @Binding var expanded: Set<UUID>
+    let addTask: () -> Void
+    @Environment(AppStore.self) private var store
+
+    var body: some View {
+        Section {
+            DisclosureGroup(isExpanded: expansionBinding) {
+                ForEach(category.items) { item in
+                    TaskToggle(item: item) {
+                        store.toggle(item, categoryID: category.id)
+                    }
+                }
+                Button(action: addTask) {
+                    Label("Додати власне завдання", systemImage: "plus")
+                }
+            } label: {
+                CategoryLabel(category: category)
+            }
+        }
     }
 
-    private func addTask(to id: UUID) { let alert = UIAlertController(title: "Нове завдання", message: nil, preferredStyle: .alert); alert.addTextField { $0.placeholder = "Назва завдання" }; alert.addAction(UIAlertAction(title: "Скасувати", style: .cancel)); alert.addAction(UIAlertAction(title: "Додати", style: .default) { _ in store.addTask(title: alert.textFields?.first?.text ?? "", to: id) }); UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }.first?.keyWindow?.rootViewController?.present(alert, animated: true) }
+    private var expansionBinding: Binding<Bool> {
+        Binding(
+            get: { expanded.contains(category.id) },
+            set: { isExpanded in
+                if isExpanded { expanded.insert(category.id) }
+                else { expanded.remove(category.id) }
+            }
+        )
+    }
+}
+
+private struct CategoryLabel: View {
+    let category: ChecklistCategory
+
+    var body: some View {
+        Label {
+            VStack(alignment: .leading) {
+                Text(category.title).font(.headline)
+                Text("\(completedCount) з \(category.items.count) виконано")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+        } icon: {
+            Image(systemName: category.symbol).foregroundStyle(AppColor.blue)
+        }
+    }
+
+    private var completedCount: Int { category.items.filter(\.isDone).count }
 }
 
 struct BagView: View {
@@ -148,10 +208,64 @@ struct ContactEditor: View {
     @Environment(\.dismiss) private var dismiss
     @State private var contact: EmergencyContact
     init(contact: EmergencyContact?) { _contact = State(initialValue: contact ?? EmergencyContact()) }
-    var body: some View { NavigationStack { Form { TextField("Ім’я", text: $contact.name); TextField("Номер телефону", text: $contact.phone).keyboardType(.phonePad); Picker("Тип", selection: $contact.type) { ForEach(["Родина", "Друзі", "Лікар", "Інші важливі контакти"], id: \.self, content: Text.init) }; TextField("Примітки", text: $contact.note, axis: .vertical) }.navigationTitle(contact.name.isEmpty ? "Новий контакт" : "Контакт").toolbar { ToolbarItem(placement: .cancellationAction) { Button("Скасувати") { dismiss() } }; ToolbarItem(placement: .confirmationAction) { Button("Зберегти") { if let index = store.contacts.firstIndex(where: { $0.id == contact.id }) { store.contacts[index] = contact } else { store.contacts.append(contact) }; store.save(); dismiss() }.disabled(contact.name.trimmingCharacters(in: .whitespaces).isEmpty || contact.phone.trimmingCharacters(in: .whitespaces).isEmpty) } } } }
+    var body: some View {
+        NavigationStack {
+            Form {
+                TextField("Ім’я", text: $contact.name)
+                TextField("Номер телефону", text: $contact.phone)
+                    .keyboardType(.phonePad)
+                Picker("Тип", selection: $contact.type) {
+                    ForEach(contactTypes, id: \.self) { Text($0) }
+                }
+                TextField("Примітки", text: $contact.note, axis: .vertical)
+            }
+            .navigationTitle(contact.name.isEmpty ? "Новий контакт" : "Контакт")
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Скасувати") { dismiss() }
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Зберегти", action: save)
+                        .disabled(!isValid)
+                }
+            }
+        }
+    }
+
+    private let contactTypes = ["Родина", "Друзі", "Лікар", "Інші важливі контакти"]
+    private var isValid: Bool {
+        !contact.name.trimmingCharacters(in: .whitespaces).isEmpty &&
+        !contact.phone.trimmingCharacters(in: .whitespaces).isEmpty
+    }
+
+    private func save() {
+        if let index = store.contacts.firstIndex(where: { $0.id == contact.id }) {
+            store.contacts[index] = contact
+        } else {
+            store.contacts.append(contact)
+        }
+        store.save()
+        dismiss()
+    }
 }
 
-struct InformationView: View { var body: some View { NavigationStack { List { InfoSection(title: "Як підготуватися до евакуації", text: "Підготуйте документи, ліки, воду, заряджений телефон і домовтеся з близькими про зв’язок."); InfoSection(title: "Як зібрати тривожну валізу", text: "Оберіть міцну сумку, врахуйте сезон і потреби кожного члена сім’ї."); InfoSection(title: "Як підготуватися до відключення", text: "Зарядіть пристрої, підготуйте освітлення, воду, їжу та альтернативний спосіб зв’язку."); InfoSection(title: "Діти та домашні тварини", text: "Підготуйте знайомі речі, корм, воду, переноску або повідець."); Section { Label("У разі безпосередньої небезпеки дотримуйтеся вказівок відповідних служб та офіційних повідомлень.", systemImage: "exclamationmark.triangle.fill").foregroundStyle(.orange) } }.navigationTitle("Важлива інформація") } } }
+struct InformationView: View {
+    var body: some View {
+        NavigationStack {
+            List {
+                InfoSection(title: "Як підготуватися до евакуації", text: "Підготуйте документи, ліки, воду, заряджений телефон і домовтеся з близькими про зв’язок.")
+                InfoSection(title: "Як зібрати тривожну валізу", text: "Оберіть міцну сумку, врахуйте сезон і потреби кожного члена сім’ї.")
+                InfoSection(title: "Як підготуватися до відключення", text: "Зарядіть пристрої, підготуйте освітлення, воду, їжу та альтернативний спосіб зв’язку.")
+                InfoSection(title: "Діти та домашні тварини", text: "Підготуйте знайомі речі, корм, воду, переноску або повідець.")
+                Section {
+                    Label("У разі безпосередньої небезпеки дотримуйтеся вказівок відповідних служб та офіційних повідомлень.", systemImage: "exclamationmark.triangle.fill")
+                        .foregroundStyle(.orange)
+                }
+            }
+            .navigationTitle("Важлива інформація")
+        }
+    }
+}
 
 struct HeaderView: View { let eyebrow: String; let title: String; let subtitle: String; var body: some View { VStack(alignment: .leading, spacing: 8) { Text(eyebrow).font(.caption.weight(.bold)).tracking(1.2).foregroundStyle(.secondary); Text(title).font(.system(size: 33, weight: .bold, design: .rounded)).foregroundStyle(AppColor.navy); Text(subtitle).font(.subheadline).foregroundStyle(.secondary) } } }
 struct QuickLink: View { let title: String; let value: String; let icon: String; let color: Color; let action: () -> Void; var body: some View { Button(action: action) { VStack(alignment: .leading, spacing: 10) { Image(systemName: icon).font(.title3.weight(.semibold)).foregroundStyle(color); Text(title).font(.subheadline.weight(.semibold)).foregroundStyle(AppColor.navy).multilineTextAlignment(.leading); Text(value).font(.caption).foregroundStyle(.secondary).lineLimit(2) }.frame(maxWidth: .infinity, minHeight: 105, alignment: .leading).padding(16).background(.thinMaterial, in: .rect(cornerRadius: 18)).overlay { RoundedRectangle(cornerRadius: 18).stroke(.white.opacity(0.55), lineWidth: 0.8) } } } }

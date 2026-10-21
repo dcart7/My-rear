@@ -45,8 +45,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0C85A50C8FF04CBB6BF2E08B /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		155E1EFCB24AB5557FAFCA86 /* MiyTylLiveActivity.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = MiyTylLiveActivity.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		0C85A50C8FF04CBB6BF2E08B /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		155E1EFCB24AB5557FAFCA86 /* MiyTylLiveActivity.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MiyTylLiveActivity.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B58E8E90AB2DA1A833BCC37 /* LiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivity.swift; sourceTree = "<group>"; };
 		338ED458C03CDFD3430B121F /* SocialAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialAPI.swift; sourceTree = "<group>"; };
 		4F67363CD4F00DC34E0DBC8A /* AlertModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModels.swift; sourceTree = "<group>"; };
@@ -56,7 +56,7 @@
 		900FF19E412479AFD0A193B7 /* MiyTylApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiyTylApp.swift; sourceTree = "<group>"; };
 		CEF29E394CF7AB6A3AD4F5C9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D5FAFA33575620DFC7E7F8EA /* AlertActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertActivityAttributes.swift; sourceTree = "<group>"; };
-		E4147C78AB8178FB09836E4A /* MiyTyl.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = MiyTyl.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E4147C78AB8178FB09836E4A /* MiyTyl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MiyTyl.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E766D043BF26EEB2F8D469F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -162,11 +162,9 @@
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					057B87DB86C0D576DCC57307 = {
-						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 					B0899514A16232B77661421B = {
-						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -367,9 +365,11 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = G5CT2RF98B;
 				INFOPLIST_FILE = MiyTyl/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Мій тил";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -386,6 +386,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = G5CT2RF98B;
 				INFOPLIST_FILE = MiyTylLiveActivity/Info.plist;
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -405,6 +406,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = G5CT2RF98B;
 				INFOPLIST_FILE = MiyTylLiveActivity/Info.plist;
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -426,9 +428,11 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = G5CT2RF98B;
 				INFOPLIST_FILE = MiyTyl/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Мій тил";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
