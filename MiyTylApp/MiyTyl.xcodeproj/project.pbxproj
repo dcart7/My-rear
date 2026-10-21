@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1D7EC7C312376428E08DB17D /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 0C85A50C8FF04CBB6BF2E08B /* PrivacyInfo.xcprivacy */; };
+		2FFBF0C9E7795CF62AEC2BF2 /* SocialAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338ED458C03CDFD3430B121F /* SocialAPI.swift */; };
 		3867651C0F11D79BC1D6CC48 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF29E394CF7AB6A3AD4F5C9 /* ContentView.swift */; };
 		53D60ECFD73471D38D6D2A25 /* AlertModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F67363CD4F00DC34E0DBC8A /* AlertModels.swift */; };
 		6EFF127BF356C8FFEE580CA9 /* LiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B58E8E90AB2DA1A833BCC37 /* LiveActivity.swift */; };
@@ -45,6 +46,7 @@
 		0C85A50C8FF04CBB6BF2E08B /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		155E1EFCB24AB5557FAFCA86 /* MiyTylLiveActivity.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = MiyTylLiveActivity.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B58E8E90AB2DA1A833BCC37 /* LiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivity.swift; sourceTree = "<group>"; };
+		338ED458C03CDFD3430B121F /* SocialAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialAPI.swift; sourceTree = "<group>"; };
 		4F67363CD4F00DC34E0DBC8A /* AlertModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModels.swift; sourceTree = "<group>"; };
 		67E46EADC52EA12C8A732D95 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		70460F71BD1F081FF2546226 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 				70460F71BD1F081FF2546226 /* Info.plist */,
 				900FF19E412479AFD0A193B7 /* MiyTylApp.swift */,
 				0C85A50C8FF04CBB6BF2E08B /* PrivacyInfo.xcprivacy */,
+				338ED458C03CDFD3430B121F /* SocialAPI.swift */,
 			);
 			path = MiyTyl;
 			sourceTree = "<group>";
@@ -197,6 +200,7 @@
 				C9DE04CF6AC3CB597F8317C0 /* AppStore.swift in Sources */,
 				3867651C0F11D79BC1D6CC48 /* ContentView.swift in Sources */,
 				E651C247D0AECAAC418793BE /* MiyTylApp.swift in Sources */,
+				2FFBF0C9E7795CF62AEC2BF2 /* SocialAPI.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,6 +1,7 @@
 import Foundation
 import Observation
 import SwiftUI
+import UIKit
 
 enum AppColor {
     static let navy = Color(red: 0.07, green: 0.18, blue: 0.31)
