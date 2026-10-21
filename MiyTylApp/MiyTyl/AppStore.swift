@@ -55,13 +55,17 @@ final class AppStore {
     var outage: [ChecklistItem]
     var contacts: [EmergencyContact]
     var family: FamilyPlan
+    var reports: [CommunityReport]
 
     private let fileURL: URL
+    private let reportsFileURL: URL
 
     init() {
         let directory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
         try? FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
         fileURL = directory.appendingPathComponent("miy-tyl-data.json")
+        reportsFileURL = directory.appendingPathComponent("miy-tyl-reports.json")
+        reports = (try? Data(contentsOf: reportsFileURL)).flatMap { try? JSONDecoder().decode([CommunityReport].self, from: $0) } ?? []
         if let data = try? Data(contentsOf: fileURL), let snapshot = try? JSONDecoder().decode(AppSnapshot.self, from: data) {
             plan = snapshot.plan; bag = snapshot.bag; outage = snapshot.outage; contacts = snapshot.contacts; family = snapshot.family
         } else {
@@ -88,7 +92,8 @@ final class AppStore {
 
     func addTask(title: String, to categoryID: UUID) { guard !title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty, let index = plan.firstIndex(where: { $0.id == categoryID }) else { return }; plan[index].items.append(ChecklistItem(title: title)); save() }
     func deleteContact(_ contact: EmergencyContact) { contacts.removeAll { $0.id == contact.id }; save() }
-    func save() { let snapshot = AppSnapshot(plan: plan, bag: bag, outage: outage, contacts: contacts, family: family); guard let data = try? JSONEncoder().encode(snapshot) else { return }; try? data.write(to: fileURL, options: [.atomic, .completeFileProtection]) }
+    func addReport(category: String, area: String, message: String) { let cleanMessage = String(message.trimmingCharacters(in: .whitespacesAndNewlines).prefix(500)); let cleanArea = String(area.trimmingCharacters(in: .whitespacesAndNewlines).prefix(80)); guard !cleanMessage.isEmpty, !cleanArea.isEmpty else { return }; reports.insert(CommunityReport(category: category, area: cleanArea, message: cleanMessage), at: 0); reports = Array(reports.prefix(100)); save() }
+    func save() { let snapshot = AppSnapshot(plan: plan, bag: bag, outage: outage, contacts: contacts, family: family); guard let data = try? JSONEncoder().encode(snapshot) else { return }; try? data.write(to: fileURL, options: [.atomic, .completeFileProtection]); if let reportData = try? JSONEncoder().encode(reports) { try? reportData.write(to: reportsFileURL, options: [.atomic, .completeFileProtection]) } }
     func resetBag() { bag = bag.map { ChecklistItem(id: $0.id, title: $0.title, note: $0.note, isDone: false) }; save() }
     func exportJSON() -> String { guard let data = try? JSONEncoder().encode(AppSnapshot(plan: plan, bag: bag, outage: outage, contacts: contacts, family: family)) else { return "{}" }; return String(decoding: data, as: UTF8.self) }
     func importJSON(_ data: Data) -> Bool { guard let snapshot = try? JSONDecoder().decode(AppSnapshot.self, from: data), snapshot.plan.count <= 30, snapshot.bag.count <= 100, snapshot.outage.count <= 100, snapshot.contacts.count <= 100 else { return false }; plan = snapshot.plan; bag = snapshot.bag; outage = snapshot.outage; contacts = snapshot.contacts; family = snapshot.family; save(); return true }

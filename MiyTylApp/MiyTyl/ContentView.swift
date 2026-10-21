@@ -1,5 +1,6 @@
 import SwiftUI
 import UniformTypeIdentifiers
+import MapKit
 
 struct ContentView: View {
     @Environment(AppStore.self) private var store
@@ -21,21 +22,27 @@ struct DashboardView: View {
     @Environment(AppStore.self) private var store
     @Binding var selectedTab: Int
     @State private var showingInfo = false
+    @State private var showingSafety = false
+    @State private var showingCommunity = false
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 HeaderView(eyebrow: "ОГЛЯД ГОТОВНОСТІ", title: "Твоя готовність —\nтвоя опора.", subtitle: "Підготуйся заздалегідь. Збережи важливе. Подбай про себе та близьких.")
                 LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
-                    QuickLink(title: "Мій план безпеки", value: "(store.progress)% готовності", icon: "checkmark.shield.fill", color: .blue) { selectedTab = 1 }
-                    QuickLink(title: "Тривожна валіза", value: "(store.bagProgress)% зібрано", icon: "archivebox.fill", color: .orange) { selectedTab = 2 }
-                    QuickLink(title: "Мої контакти", value: store.contacts.isEmpty ? "Додайте важливих людей" : "(store.contacts.count) збережено", icon: "person.2.fill", color: .green) { selectedTab = 3 }
-                    QuickLink(title: "Підготовка до відключень", value: "(store.outageProgress)% виконано", icon: "bolt.fill", color: .purple) { showingInfo = true }
+                    QuickLink(title: "Мій план безпеки", value: "\(store.progress)% готовності", icon: "checkmark.shield.fill", color: .blue) { selectedTab = 1 }
+                    QuickLink(title: "Тривожна валіза", value: "\(store.bagProgress)% зібрано", icon: "archivebox.fill", color: .orange) { selectedTab = 2 }
+                    QuickLink(title: "Мої контакти", value: store.contacts.isEmpty ? "Додайте важливих людей" : "\(store.contacts.count) збережено", icon: "person.2.fill", color: .green) { selectedTab = 3 }
+                    QuickLink(title: "Підготовка до відключень", value: "\(store.outageProgress)% виконано", icon: "bolt.fill", color: .purple) { selectedTab = 2 }
                 }
                 ReadinessCard { selectedTab = 1 }
                 TodayCard()
                 ImportantNotice()
                 Button { showingInfo = true } label: { Label("Важлива інформація", systemImage: "book.closed.fill").frame(maxWidth: .infinity, alignment: .leading) }
+                    .buttonStyle(.bordered)
+                Button { showingSafety = true } label: { Label("Тривоги та карта", systemImage: "map.fill").frame(maxWidth: .infinity, alignment: .leading) }
+                    .buttonStyle(.borderedProminent)
+                Button { showingCommunity = true } label: { Label("Повідомити про проблему", systemImage: "bubble.left.and.exclamationmark.bubble.right").frame(maxWidth: .infinity, alignment: .leading) }
                     .buttonStyle(.bordered)
             }
             .padding(.horizontal)
@@ -43,6 +50,8 @@ struct DashboardView: View {
         }
         .navigationTitle("Мій тил")
         .sheet(isPresented: $showingInfo) { InformationView() }
+        .sheet(isPresented: $showingSafety) { SafetyCenterView() }
+        .sheet(isPresented: $showingCommunity) { CommunityReportsView() }
     }
 }
 
@@ -147,6 +156,52 @@ struct ImportantNotice: View { var body: some View { Label("У разі безп
 struct ProgressRow: View { let title: String; let value: Int; var body: some View { VStack(alignment: .leading, spacing: 8) { HStack { Text(title).font(.subheadline.weight(.semibold)); Spacer(); Text("\(value)%").font(.subheadline.weight(.bold)).foregroundStyle(AppColor.blue) }; ProgressView(value: Double(value), total: 100) } } }
 struct ProgressCircle: View { let value: Int; var body: some View { ZStack { Circle().stroke(.white.opacity(0.8), lineWidth: 9); Circle().trim(from: 0, to: CGFloat(value) / 100).stroke(AppColor.blue, style: StrokeStyle(lineWidth: 9, lineCap: .round)).rotationEffect(.degrees(-90)); Text("\(value)%").font(.headline.weight(.bold)) }.frame(width: 78, height: 78) } }
 struct TaskToggle: View { let item: ChecklistItem; let action: () -> Void; var body: some View { Button(action: action) { Label { Text(item.title).strikethrough(item.isDone).foregroundStyle(item.isDone ? .secondary : .primary) } icon: { Image(systemName: item.isDone ? "checkmark.square.fill" : "square").foregroundStyle(item.isDone ? AppColor.blue : .secondary) } }.buttonStyle(.plain).padding(.vertical, 4) } }
+struct SafetyCenterView: View {
+    @Environment(\.dismiss) private var dismiss
+    @State private var token = ""
+    @State private var regionID = "16"
+    @State private var status = "Дані ще не завантажено"
+    @State private var isLoading = false
+    private let service = AirAlertService()
+    private let ukraine = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 49.0, longitude: 31.5), span: MKCoordinateSpan(latitudeDelta: 12, longitudeDelta: 20))
+
+    var body: some View {
+        NavigationStack {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 14) {
+                    Map(initialPosition: .region(ukraine)) { Marker("Україна", coordinate: CLLocationCoordinate2D(latitude: 49.0, longitude: 31.5)) }.frame(height: 220).clipShape(.rect(cornerRadius: 16))
+                    Label(status, systemImage: status.contains("актив") ? "exclamationmark.triangle.fill" : "shield.checkered").foregroundStyle(status.contains("актив") ? .red : .secondary)
+                    Text("Для живих даних потрібен персональний токен alerts.in.ua або захищений backend-проксі. Токен не зберігається в застосунку.").font(.footnote).foregroundStyle(.secondary)
+                    SecureField("API-токен", text: $token).textFieldStyle(.roundedBorder)
+                    TextField("ID області", text: $regionID).keyboardType(.numberPad).textFieldStyle(.roundedBorder)
+                    Button { refresh() } label: { Label(isLoading ? "Оновлення…" : "Оновити дані", systemImage: "arrow.clockwise").frame(maxWidth: .infinity) }.buttonStyle(.borderedProminent).disabled(token.isEmpty || isLoading)
+                    Text("У разі безпосередньої небезпеки дотримуйтеся офіційних повідомлень відповідних служб.").font(.caption).foregroundStyle(.orange)
+                }.padding()
+            }.navigationTitle("Тривоги та карта").toolbar { Button("Готово") { dismiss() } }
+        }
+    }
+
+    private func refresh() { guard let id = Int(regionID), let base = URL(string: "https://api.alerts.in.ua") else { return }; isLoading = true; Task { do { let result = try await service.fetchStatus(baseURL: base, bearerToken: token, regionID: id); status = result.status == "active" ? "Активна тривога: \(result.locationTitle)" : "Активних тривог не зафіксовано"; await LiveActivityManager.shared.update(region: result.locationTitle, status: result.status) } catch { status = "Не вдалося отримати дані. Перевірте токен або з’єднання." }; isLoading = false }
+    }
+}
+
+struct CommunityReportsView: View {
+    @Environment(AppStore.self) private var store
+    @Environment(\.dismiss) private var dismiss
+    @State private var category = "Немає світла"
+    @State private var area = ""
+    @State private var message = ""
+    var body: some View {
+        NavigationStack {
+            List {
+                Section("Локальні повідомлення") { ForEach(store.reports) { report in VStack(alignment: .leading, spacing: 4) { Text(report.category).font(.headline); Text(report.message).font(.subheadline); Text(report.area).font(.caption).foregroundStyle(.secondary) } } }
+                Section("Додати повідомлення") { Picker("Категорія", selection: $category) { ForEach(["Немає світла", "Немає води", "Проблема зі зв’язком", "Інше"], id: \.self, content: Text.init) }; TextField("Район або населений пункт без точної адреси", text: $area); TextField("Що сталося?", text: $message, axis: .vertical); Button("Опублікувати локально") { store.addReport(category: category, area: area, message: message); area = ""; message = "" }.disabled(area.trimmingCharacters(in: .whitespaces).isEmpty || message.trimmingCharacters(in: .whitespaces).isEmpty) }
+                Section { Text("Це локальна дошка на цьому пристрої. Для публічної соціальної мережі потрібні окремий сервер, модерація, правила спільноти, скарги, видалення контенту та захист персональних даних.").font(.footnote).foregroundStyle(.secondary) }
+            }.navigationTitle("Спільнота").toolbar { Button("Готово") { dismiss() } }
+        }
+    }
+}
+
 struct InfoSection: View { let title: String; let text: String; var body: some View { Section(title) { Text(text).font(.subheadline).foregroundStyle(.secondary) } } }
 
 private func phoneURL(_ phone: String) -> URL? { let sanitized = phone.filter { $0.isNumber || $0 == "+" }; return sanitized.isEmpty ? nil : URL(string: "tel://\(sanitized)") }

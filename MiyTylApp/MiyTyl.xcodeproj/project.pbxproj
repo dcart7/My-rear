@@ -9,17 +9,48 @@
 /* Begin PBXBuildFile section */
 		1D7EC7C312376428E08DB17D /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 0C85A50C8FF04CBB6BF2E08B /* PrivacyInfo.xcprivacy */; };
 		3867651C0F11D79BC1D6CC48 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF29E394CF7AB6A3AD4F5C9 /* ContentView.swift */; };
+		53D60ECFD73471D38D6D2A25 /* AlertModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F67363CD4F00DC34E0DBC8A /* AlertModels.swift */; };
+		6EFF127BF356C8FFEE580CA9 /* LiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B58E8E90AB2DA1A833BCC37 /* LiveActivity.swift */; };
+		C457EA95967C4D3D9438C4FB /* MiyTylLiveActivity.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 155E1EFCB24AB5557FAFCA86 /* MiyTylLiveActivity.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C9DE04CF6AC3CB597F8317C0 /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D300B297277EC27085DF79A /* AppStore.swift */; };
 		E651C247D0AECAAC418793BE /* MiyTylApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900FF19E412479AFD0A193B7 /* MiyTylApp.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		035C260ABC64B91C41FE5D76 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7D2AA34655300363532D7849 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 057B87DB86C0D576DCC57307;
+			remoteInfo = MiyTylLiveActivity;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		392AF94B60D50E4F02790C7B /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				C457EA95967C4D3D9438C4FB /* MiyTylLiveActivity.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		0C85A50C8FF04CBB6BF2E08B /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		155E1EFCB24AB5557FAFCA86 /* MiyTylLiveActivity.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = MiyTylLiveActivity.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		2B58E8E90AB2DA1A833BCC37 /* LiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivity.swift; sourceTree = "<group>"; };
+		4F67363CD4F00DC34E0DBC8A /* AlertModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModels.swift; sourceTree = "<group>"; };
 		70460F71BD1F081FF2546226 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D300B297277EC27085DF79A /* AppStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStore.swift; sourceTree = "<group>"; };
 		900FF19E412479AFD0A193B7 /* MiyTylApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiyTylApp.swift; sourceTree = "<group>"; };
 		CEF29E394CF7AB6A3AD4F5C9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		E4147C78AB8178FB09836E4A /* MiyTyl.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = MiyTyl.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E766D043BF26EEB2F8D469F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -27,6 +58,7 @@
 			isa = PBXGroup;
 			children = (
 				D6B90A40C96D0591BB939791 /* MiyTyl */,
+				D6751F3F4663A4070E1C5038 /* MiyTylLiveActivity */,
 				6CEB8F9706511822150027C4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -35,13 +67,24 @@
 			isa = PBXGroup;
 			children = (
 				E4147C78AB8178FB09836E4A /* MiyTyl.app */,
+				155E1EFCB24AB5557FAFCA86 /* MiyTylLiveActivity.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		D6751F3F4663A4070E1C5038 /* MiyTylLiveActivity */ = {
+			isa = PBXGroup;
+			children = (
+				E766D043BF26EEB2F8D469F2 /* Info.plist */,
+				2B58E8E90AB2DA1A833BCC37 /* LiveActivity.swift */,
+			);
+			path = MiyTylLiveActivity;
 			sourceTree = "<group>";
 		};
 		D6B90A40C96D0591BB939791 /* MiyTyl */ = {
 			isa = PBXGroup;
 			children = (
+				4F67363CD4F00DC34E0DBC8A /* AlertModels.swift */,
 				8D300B297277EC27085DF79A /* AppStore.swift */,
 				CEF29E394CF7AB6A3AD4F5C9 /* ContentView.swift */,
 				70460F71BD1F081FF2546226 /* Info.plist */,
@@ -54,16 +97,35 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		057B87DB86C0D576DCC57307 /* MiyTylLiveActivity */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7C97A8953F7665444A03EFC1 /* Build configuration list for PBXNativeTarget "MiyTylLiveActivity" */;
+			buildPhases = (
+				513DBC42C0750355DEFE995A /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MiyTylLiveActivity;
+			packageProductDependencies = (
+			);
+			productName = MiyTylLiveActivity;
+			productReference = 155E1EFCB24AB5557FAFCA86 /* MiyTylLiveActivity.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		B0899514A16232B77661421B /* MiyTyl */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4CC70E9A94D2778CF7161BAB /* Build configuration list for PBXNativeTarget "MiyTyl" */;
 			buildPhases = (
 				3C74B867E62B111E77DBB2FF /* Sources */,
 				9FC0E6525B821ED1EAF47E4A /* Resources */,
+				392AF94B60D50E4F02790C7B /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				FB129D2871C0DCA34DCF237F /* PBXTargetDependency */,
 			);
 			name = MiyTyl;
 			packageProductDependencies = (
@@ -81,6 +143,10 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
+					057B87DB86C0D576DCC57307 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
 					B0899514A16232B77661421B = {
 						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
@@ -102,6 +168,7 @@
 			projectRoot = "";
 			targets = (
 				B0899514A16232B77661421B /* MiyTyl */,
+				057B87DB86C0D576DCC57307 /* MiyTylLiveActivity */,
 			);
 		};
 /* End PBXProject section */
@@ -122,13 +189,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				53D60ECFD73471D38D6D2A25 /* AlertModels.swift in Sources */,
 				C9DE04CF6AC3CB597F8317C0 /* AppStore.swift in Sources */,
 				3867651C0F11D79BC1D6CC48 /* ContentView.swift in Sources */,
 				E651C247D0AECAAC418793BE /* MiyTylApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		513DBC42C0750355DEFE995A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6EFF127BF356C8FFEE580CA9 /* LiveActivity.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		FB129D2871C0DCA34DCF237F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 057B87DB86C0D576DCC57307 /* MiyTylLiveActivity */;
+			targetProxy = 035C260ABC64B91C41FE5D76 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		3A3BF5CA9A1571701ED41F42 /* Debug */ = {
@@ -273,6 +357,42 @@
 			};
 			name = Debug;
 		};
+		98B9159190E83D806C18ED6E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				INFOPLIST_FILE = MiyTylLiveActivity/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "ua.miytyl.app.live-activity";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		C3D407723AC1D35661B62CC5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				INFOPLIST_FILE = MiyTylLiveActivity/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "ua.miytyl.app.live-activity";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
 		E3EC781FCF10B4491A2F16AC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -309,6 +429,15 @@
 			buildConfigurations = (
 				3A3BF5CA9A1571701ED41F42 /* Debug */,
 				798C5EC0ECD4F2523D75CFAF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		7C97A8953F7665444A03EFC1 /* Build configuration list for PBXNativeTarget "MiyTylLiveActivity" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C3D407723AC1D35661B62CC5 /* Debug */,
+				98B9159190E83D806C18ED6E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
