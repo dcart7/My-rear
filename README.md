@@ -72,6 +72,19 @@ open MiyTyl.xcodeproj
 
 Перед запуском на пристрої потрібно налаштувати власний Apple Developer Team і Bundle Identifier `ua.miytyl.app`.
 
+## Публікація в App Store
+
+1. Відкрийте `MiyTylApp/MiyTyl.xcodeproj` у Xcode.
+2. Увімкніть автоматичне підписання для `MiyTyl` і `MiyTylLiveActivity` та виберіть свою Team.
+3. Замініть `ua.miytyl.app` і `ua.miytyl.app.live-activity` на власні унікальні Bundle ID, якщо вони вже зайняті.
+4. Перевірте `Marketing Version` `1.0.0` і `Current Project Version` `1`.
+5. Запустіть застосунок на фізичному iPhone та перевірте імпорт/експорт, телефонні посилання, Dynamic Island і Live Activity.
+6. Виберіть `Any iOS Device (arm64)` → `Product` → `Archive`.
+7. У Organizer виконайте `Validate App`, виправте попередження signing/privacy, потім `Distribute App` → `App Store Connect`.
+8. У App Store Connect додайте назву, опис, ключові слова, категорію, скриншоти для iPhone/iPad, privacy answers і age rating.
+
+У проєкт уже включено AppIcon asset catalog для iPhone/iPad, `PrivacyInfo.xcprivacy`, `ITSAppUsesNonExemptEncryption = NO` та Live Activity extension. Apple Developer Team, сертифікати, provisioning profiles і App Store Connect metadata потрібно додати у власному акаунті.
+
 ## Приватність і безпека
 
 - Реєстрація не потрібна.

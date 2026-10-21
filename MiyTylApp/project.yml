@@ -21,6 +21,9 @@ targets:
         CODE_SIGN_STYLE: Automatic
         CURRENT_PROJECT_VERSION: 1
         MARKETING_VERSION: 1.0.0
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        INFOPLIST_KEY_CFBundleDisplayName: Мій тил
+        INFOPLIST_KEY_ITSAppUsesNonExemptEncryption: NO
     scheme:
       gatherCoverageData: false
     dependencies:
@@ -37,3 +40,4 @@ targets:
         CODE_SIGN_STYLE: Automatic
         CURRENT_PROJECT_VERSION: 1
         MARKETING_VERSION: 1.0.0
+        INFOPLIST_KEY_NSSupportsLiveActivities: YES

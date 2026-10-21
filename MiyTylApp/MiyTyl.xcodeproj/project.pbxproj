@@ -14,6 +14,7 @@
 		C457EA95967C4D3D9438C4FB /* MiyTylLiveActivity.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 155E1EFCB24AB5557FAFCA86 /* MiyTylLiveActivity.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C9DE04CF6AC3CB597F8317C0 /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D300B297277EC27085DF79A /* AppStore.swift */; };
 		E651C247D0AECAAC418793BE /* MiyTylApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900FF19E412479AFD0A193B7 /* MiyTylApp.swift */; };
+		EBEEDFB7FD512351DC8661EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 67E46EADC52EA12C8A732D95 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +46,7 @@
 		155E1EFCB24AB5557FAFCA86 /* MiyTylLiveActivity.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = MiyTylLiveActivity.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B58E8E90AB2DA1A833BCC37 /* LiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivity.swift; sourceTree = "<group>"; };
 		4F67363CD4F00DC34E0DBC8A /* AlertModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModels.swift; sourceTree = "<group>"; };
+		67E46EADC52EA12C8A732D95 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		70460F71BD1F081FF2546226 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D300B297277EC27085DF79A /* AppStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStore.swift; sourceTree = "<group>"; };
 		900FF19E412479AFD0A193B7 /* MiyTylApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiyTylApp.swift; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 			children = (
 				4F67363CD4F00DC34E0DBC8A /* AlertModels.swift */,
 				8D300B297277EC27085DF79A /* AppStore.swift */,
+				67E46EADC52EA12C8A732D95 /* Assets.xcassets */,
 				CEF29E394CF7AB6A3AD4F5C9 /* ContentView.swift */,
 				70460F71BD1F081FF2546226 /* Info.plist */,
 				900FF19E412479AFD0A193B7 /* MiyTylApp.swift */,
@@ -178,6 +181,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EBEEDFB7FD512351DC8661EC /* Assets.xcassets in Resources */,
 				1D7EC7C312376428E08DB17D /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -346,6 +350,8 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = MiyTyl/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Мій тил";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -363,6 +369,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = MiyTylLiveActivity/Info.plist;
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -381,6 +388,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = MiyTylLiveActivity/Info.plist;
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -401,6 +409,8 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = MiyTyl/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Мій тил";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
