@@ -7,14 +7,6 @@ struct AlertStatus: Codable, Equatable {
     var updatedAt: Date
 }
 
-struct CommunityReport: Codable, Identifiable, Equatable {
-    var id = UUID()
-    var category: String
-    var area: String
-    var message: String
-    var createdAt = Date()
-}
-
 actor AirAlertService {
     private let session: URLSession
     private let decoder: JSONDecoder

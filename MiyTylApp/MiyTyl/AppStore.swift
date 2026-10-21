@@ -1,15 +1,14 @@
 import Foundation
 import Observation
 import SwiftUI
-import UIKit
 
 enum AppColor {
     static let navy = Color(red: 0.07, green: 0.18, blue: 0.31)
     static let blue = Color(red: 0.19, green: 0.49, blue: 0.72)
     static let paleBlue = Color(red: 0.91, green: 0.96, blue: 0.99)
     static let orange = Color(red: 0.93, green: 0.51, blue: 0.18)
-    static let canvas = Color(uiColor: .systemGroupedBackground)
-    static let surface = Color(uiColor: .secondarySystemGroupedBackground)
+    static let canvas = Color(red: 0.95, green: 0.95, blue: 0.97)
+    static let surface = Color(red: 0.98, green: 0.98, blue: 1.00)
 }
 
 struct ChecklistItem: Codable, Identifiable, Hashable {
@@ -41,6 +40,14 @@ struct FamilyPlan: Codable, Equatable {
     var outsideContact = ""
     var agreements = ""
     var needs = ""
+}
+
+struct CommunityReport: Codable, Identifiable, Equatable {
+    var id = UUID()
+    var category: String
+    var area: String
+    var message: String
+    var createdAt = Date()
 }
 
 struct AppSnapshot: Codable {
