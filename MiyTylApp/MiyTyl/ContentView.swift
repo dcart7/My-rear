@@ -15,6 +15,8 @@ struct ContentView: View {
             NavigationStack { SettingsView() }.tabItem { Label("Налаштування", systemImage: "gearshape.fill") }.tag(4)
         }
         .tint(AppColor.blue)
+        .toolbarBackground(.ultraThinMaterial, for: .tabBar)
+        .toolbarBackground(.visible, for: .tabBar)
     }
 }
 
@@ -48,7 +50,10 @@ struct DashboardView: View {
             .padding(.horizontal)
             .padding(.top, 18)
         }
+        .scrollIndicators(.hidden)
+        .background(AppColor.canvas.ignoresSafeArea())
         .navigationTitle("Мій тил")
+        .navigationBarTitleDisplayMode(.large)
         .sheet(isPresented: $showingInfo) { InformationView() }
         .sheet(isPresented: $showingSafety) { SafetyCenterView() }
         .sheet(isPresented: $showingCommunity) { CommunityReportsView() }
@@ -149,7 +154,7 @@ struct ContactEditor: View {
 struct InformationView: View { var body: some View { NavigationStack { List { InfoSection(title: "Як підготуватися до евакуації", text: "Підготуйте документи, ліки, воду, заряджений телефон і домовтеся з близькими про зв’язок."); InfoSection(title: "Як зібрати тривожну валізу", text: "Оберіть міцну сумку, врахуйте сезон і потреби кожного члена сім’ї."); InfoSection(title: "Як підготуватися до відключення", text: "Зарядіть пристрої, підготуйте освітлення, воду, їжу та альтернативний спосіб зв’язку."); InfoSection(title: "Діти та домашні тварини", text: "Підготуйте знайомі речі, корм, воду, переноску або повідець."); Section { Label("У разі безпосередньої небезпеки дотримуйтеся вказівок відповідних служб та офіційних повідомлень.", systemImage: "exclamationmark.triangle.fill").foregroundStyle(.orange) } }.navigationTitle("Важлива інформація") } } }
 
 struct HeaderView: View { let eyebrow: String; let title: String; let subtitle: String; var body: some View { VStack(alignment: .leading, spacing: 8) { Text(eyebrow).font(.caption.weight(.bold)).tracking(1.2).foregroundStyle(.secondary); Text(title).font(.system(size: 33, weight: .bold, design: .rounded)).foregroundStyle(AppColor.navy); Text(subtitle).font(.subheadline).foregroundStyle(.secondary) } } }
-struct QuickLink: View { let title: String; let value: String; let icon: String; let color: Color; let action: () -> Void; var body: some View { Button(action: action) { VStack(alignment: .leading, spacing: 10) { Image(systemName: icon).font(.title3).foregroundStyle(color); Text(title).font(.subheadline.weight(.semibold)).foregroundStyle(AppColor.navy).multilineTextAlignment(.leading); Text(value).font(.caption).foregroundStyle(.secondary).lineLimit(2) }.frame(maxWidth: .infinity, minHeight: 105, alignment: .leading).padding(14).background(.background, in: .rect(cornerRadius: 16)).overlay { RoundedRectangle(cornerRadius: 16).stroke(.quaternary) } } } }
+struct QuickLink: View { let title: String; let value: String; let icon: String; let color: Color; let action: () -> Void; var body: some View { Button(action: action) { VStack(alignment: .leading, spacing: 10) { Image(systemName: icon).font(.title3.weight(.semibold)).foregroundStyle(color); Text(title).font(.subheadline.weight(.semibold)).foregroundStyle(AppColor.navy).multilineTextAlignment(.leading); Text(value).font(.caption).foregroundStyle(.secondary).lineLimit(2) }.frame(maxWidth: .infinity, minHeight: 105, alignment: .leading).padding(16).background(.thinMaterial, in: .rect(cornerRadius: 18)).overlay { RoundedRectangle(cornerRadius: 18).stroke(.white.opacity(0.55), lineWidth: 0.8) } } } }
 struct ReadinessCard: View { @Environment(AppStore.self) private var store; let action: () -> Void; var body: some View { VStack(alignment: .leading, spacing: 14) { HStack { Label("Моя готовність", systemImage: "checkmark.shield.fill").font(.headline); Spacer(); Button("Відкрити план", action: action).font(.caption.weight(.semibold)) }; HStack(spacing: 18) { ProgressCircle(value: store.progress); VStack(alignment: .leading, spacing: 6) { Text("\(store.planDone) із \(store.planTotal) завдань виконано").font(.subheadline.weight(.semibold)); Text(store.progress >= 70 ? "Чудовий темп. Перевірте, чи все актуально." : "Маленькі кроки створюють відчуття опори.").font(.caption).foregroundStyle(.secondary) } } }.padding(18).background(AppColor.paleBlue, in: .rect(cornerRadius: 18)) } }
 struct TodayCard: View { @Environment(AppStore.self) private var store; var body: some View { VStack(alignment: .leading, spacing: 4) { Text("Що варто зробити сьогодні").font(.headline); ForEach(store.plan.flatMap(\.items).filter { !$0.isDone }.prefix(3)) { item in TaskToggle(item: item) { for category in store.plan where category.items.contains(item) { store.toggle(item, categoryID: category.id) } } } }.padding(18).background(.background, in: .rect(cornerRadius: 18)).overlay { RoundedRectangle(cornerRadius: 18).stroke(.quaternary) } } }
 struct ImportantNotice: View { var body: some View { Label("У разі безпосередньої небезпеки дотримуйтеся вказівок відповідних служб та офіційних повідомлень.", systemImage: "exclamationmark.triangle.fill").font(.caption).foregroundStyle(.orange).padding(14).frame(maxWidth: .infinity, alignment: .leading).background(.orange.opacity(0.1), in: .rect(cornerRadius: 12)) } }

@@ -6,7 +6,7 @@
 	<key>CFBundleName</key><string>Мій тил</string>
 	<key>CFBundleDevelopmentRegion</key><string>uk</string>
 	<key>CFBundleLocalizations</key><array><string>uk</string></array>
-	<key>UILaunchScreen</key><dict><key>UIColorName</key><string>LaunchBackground</string></dict>
+	<key>UILaunchScreen</key><dict/>
 	<key>UISupportedInterfaceOrientations</key><array><string>UIInterfaceOrientationPortrait</string><string>UIInterfaceOrientationPortraitUpsideDown</string><string>UIInterfaceOrientationLandscapeLeft</string><string>UIInterfaceOrientationLandscapeRight</string></array>
 	<key>UIUserInterfaceStyle</key><string>Light</string>
 	<key>MiyTylAPIBaseURL</key><string></string>

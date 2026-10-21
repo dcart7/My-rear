@@ -7,6 +7,8 @@ enum AppColor {
     static let blue = Color(red: 0.19, green: 0.49, blue: 0.72)
     static let paleBlue = Color(red: 0.91, green: 0.96, blue: 0.99)
     static let orange = Color(red: 0.93, green: 0.51, blue: 0.18)
+    static let canvas = Color(uiColor: .systemGroupedBackground)
+    static let surface = Color(uiColor: .secondarySystemGroupedBackground)
 }
 
 struct ChecklistItem: Codable, Identifiable, Hashable {
